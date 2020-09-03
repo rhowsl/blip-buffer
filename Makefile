@@ -1,11 +1,13 @@
 CC=/usr/bin/gcc
 CXX=/usr/bin/g++
-CFLAGS=-I. -L. -lm -O0 -fpermissive
+CFLAGS=-I. -Lbuild/lib -lm -O0 -fpermissive
 
 blipbuffer:
-	mkdir -p bin
-	$(CXX) $(CFLAGS) Blip_Buffer.cpp -shared -o bin/libblipbuffer.so
-	$(CXX) $(CFLAGS) blipbuffer_c.c -shared -o bin/libblipbuffer_c.so
+	mkdir -p build
+	mkdir -p build/lib
+	$(CXX) $(CFLAGS) Blip_Buffer.cpp -fPIC -shared -o build/lib/libblipbuffer.so
+	$(CXX) $(CFLAGS) blipbuffer_c.c -lblipbuffer -flinker-output=dyn -fPIC -shared -o build/lib/libblipbuffer_c.so
+
 clean:
-	rm -rv bin
+	rm -rv build
 
